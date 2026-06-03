@@ -1,5 +1,6 @@
 package com.blink.blinkclient.network;
 
+import com.blink.blinkclient.core.AuthResponse;
 import com.blink.blinkclient.core.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
@@ -15,7 +16,7 @@ public class BlinkApiService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // 1. Unauthenticated Request (Login/Register)
-    public String authenticate(String username, String password) throws Exception {
+    public AuthResponse authenticate(String username, String password) throws Exception {
         String payload = objectMapper.writeValueAsString(Map.of(
                 "username", username,
                 "password", password
@@ -31,7 +32,12 @@ public class BlinkApiService {
 
         if (response.statusCode() == 200) {
             Map<?, ?> responseMap = objectMapper.readValue(response.body(), Map.class);
-            return (String) responseMap.get("token");
+            return new AuthResponse(
+                    (String) responseMap.get("token"),
+                    (String) responseMap.get("id"),
+                    (String) responseMap.get("username"),
+                    (String) responseMap.get("email")
+            );
         } else {
             throw new RuntimeException("Authentication failed: Status " + response.statusCode());
         }
@@ -46,6 +52,23 @@ public class BlinkApiService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/users/" + userId + "/friends/accepted"))
                 .header("Accept", "application/json")
+                .header("Authorization", "Bearer " + SessionManager.getToken())
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+    }
+
+    // 3. Authenticated Request (Getting Rooms Where User Participates)
+    public String getRoomsList(String userId) throws Exception {
+        if (!SessionManager.isAuthenticated()) {
+            throw new IllegalStateException("No active session found.");
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/rooms/userRooms/" + userId))
+                .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + SessionManager.getToken())
                 .GET()
                 .build();

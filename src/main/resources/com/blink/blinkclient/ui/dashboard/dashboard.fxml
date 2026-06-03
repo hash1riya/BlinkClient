@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.blink.blinkclient.ui.DashboardController"
+            stylesheets="@dashboard.css"
+            styleClass="dashboard-root"
+            prefHeight="600.0" prefWidth="900.0">
+
+    <top>
+        <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="20">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label text="Blink" styleClass="app-logo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome, User" styleClass="user-profile-label"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="logout-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.3" styleClass="main-split-pane">
+
+            <VBox styleClass="sidebar-container" spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <VBox spacing="5" VBox.vgrow="ALWAYS">
+                    <Label text="FRIENDS" styleClass="section-heading"/>
+                    <ListView fx:id="friendsListView" styleClass="dark-list-view" VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+                <Separator styleClass="section-separator"/>
+
+                <VBox spacing="5" VBox.vgrow="ALWAYS">
+                    <Label text="ROOMS" styleClass="section-heading"/>
+                    <ListView fx:id="roomsListView" styleClass="dark-list-view" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </VBox>
+
+            <StackPane fx:id="contentArea" styleClass="content-pane">
+                <Label text="Select a conversation or room to begin chatting" styleClass="placeholder-text"/>
+            </StackPane>
+
+        </SplitPane>
+    </center>
+</BorderPane>

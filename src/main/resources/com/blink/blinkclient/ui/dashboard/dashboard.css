@@ -1,0 +1,98 @@
+.dashboard-root {
+    -fx-background-color: #1e1e24;
+}
+
+/* Header UI Styles */
+.top-bar {
+    -fx-background-color: #16161a;
+    -fx-border-color: #2a2a35;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.app-logo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5b62f4;
+}
+
+.user-profile-label {
+    -fx-text-fill: #e1e1e6;
+    -fx-font-weight: bold;
+}
+
+.logout-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff5555;
+    -fx-border-color: #ff5555;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.logout-button:hover {
+    -fx-background-color: #ff5555;
+    -fx-text-fill: white;
+}
+
+/* Main Layout Splitters */
+.main-split-pane {
+    -fx-background-color: transparent;
+    -fx-box-border: transparent;
+}
+
+.main-split-pane .split-pane-divider {
+    -fx-background-color: #2a2a35;
+    -fx-padding: 0 1px 0 1px;
+}
+
+/* Sidebar Styling */
+.sidebar-container {
+    -fx-background-color: #1a1a20;
+}
+
+.section-heading {
+    -fx-text-fill: #72767d;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0 5px 5px;
+}
+
+.section-separator {
+    -fx-background-color: #2a2a35;
+    -fx-padding: 1px 0 1px 0;
+}
+
+/* Dark Theme List Views */
+.dark-list-view {
+    -fx-background-color: #1a1a20;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.dark-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #b9bbbe;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.dark-list-view .list-cell:hover {
+    -fx-background-color: #2c2f38;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 4px;
+}
+
+.dark-list-view .list-cell:selected {
+    -fx-background-color: #40444b;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 4px;
+}
+
+/* Main Content Workspace */
+.content-pane {
+    -fx-background-color: #2f3136;
+}
+
+.placeholder-text {
+    -fx-text-fill: #72767d;
+    -fx-font-size: 16px;
+}

@@ -1,0 +1,46 @@
+.root {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.login-container {
+    -fx-background-color: #1e1e24;
+}
+
+.title-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #ffffff;
+}
+
+.input-field {
+    -fx-max-width: 500px;
+    -fx-background-color: #2a2a35;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px;
+}
+
+.input-field:focused {
+    -fx-border-color: #5b62f4;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+}
+
+.submit-button {
+    -fx-background-color: #5b62f4;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.submit-button:hover {
+    -fx-background-color: #4a50d9;
+}
+
+.error-message {
+    -fx-text-fill: #ff5555;
+    -fx-font-size: 12px;
+}
