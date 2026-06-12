@@ -5,13 +5,18 @@ import java.util.List;
 
 public class Room {
 
+    public enum RoomType {
+        ROOM,
+        DIRECT
+    }
+
     private String id;
     private String ownerId;
     private String name;
     private String desc;
-    private LocalDateTime createdAt;
-
+    private RoomType type;
     private List<Membership> members;
+    private LocalDateTime createdAt;
 
     public String getId() {
         return id;
@@ -43,6 +48,14 @@ public class Room {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public void setType(RoomType type) {
+        this.type = type;
     }
 
     public List<Membership> getMembers() {

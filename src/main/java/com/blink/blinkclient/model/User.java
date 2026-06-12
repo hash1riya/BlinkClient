@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 
 public class User {
 
+    public enum UserStatus {
+        ONLINE,
+        IDLE,
+        DO_NOT_DISTURB,
+        OFFLINE
+    }
+
     private String id;
     private String username;
     private String email;

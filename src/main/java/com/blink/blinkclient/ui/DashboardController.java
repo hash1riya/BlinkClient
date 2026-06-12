@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,17 +26,31 @@ public class DashboardController {
     @FXML private Label welcomeLabel;
     @FXML private ListView<User> friendsListView;
     @FXML private ListView<Room> roomsListView;
+    @FXML private StackPane contentArea;
 
     private final BlinkApiService apiService = new BlinkApiService();
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
 
     @FXML
     public void initialize() {
         // Set context profile state details
         this.welcomeLabel.setText("Active Session: " + SessionManager.getCurrUsername());
 
-        // Load protected data records
+        // Set up selection listeners for Rooms
+        roomsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                friendsListView.getSelectionModel().clearSelection(); // Clear friend selection
+                loadChatWorkspace(newVal.getId(), newVal.getName(), true);
+            }
+        });
+
+        // Set up selection listeners for Friends
+        friendsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                roomsListView.getSelectionModel().clearSelection(); // Clear room selection
+                loadChatWorkspace(newVal.getId(), newVal.getUsername(), false);
+            }
+        });
+
         loadFriendsData();
         loadRoomsData();
     }
@@ -44,7 +59,7 @@ public class DashboardController {
         try {
             String rawJson = this.apiService.getFriendsList(SessionManager.getUserId());
 
-            List<Friendship> friendships = this.objectMapper.readValue(
+            List<Friendship> friendships = this.apiService.objectMapper.readValue(
                     rawJson,
                     new TypeReference<>() {
                     }
@@ -71,7 +86,7 @@ public class DashboardController {
                 return;
             }
 
-            List<Room> rooms = this.objectMapper.readValue(
+            List<Room> rooms = this.apiService.objectMapper.readValue(
                     rawJson,
                     new TypeReference<>() {
                     }
@@ -84,6 +99,21 @@ public class DashboardController {
 
         } catch (Exception e) {
             System.err.println("Error parsing rooms: " + e.getMessage());
+        }
+    }
+
+    private void loadChatWorkspace(String targetId, String displayName, boolean isRoom) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/blink/blinkclient/ui/dashboard/chatPane.fxml"));
+            Parent chatPaneRoot = loader.load();
+
+            ChatPaneController controller = loader.getController();
+            controller.setupChatTarget(targetId, displayName, isRoom);
+
+            // Swap out the placeholder content with the active chat panel
+            contentArea.getChildren().setAll(chatPaneRoot);
+        } catch (IOException e) {
+            System.err.println("Could not load chat panel workspace layout: " + e.getMessage());
         }
     }
 

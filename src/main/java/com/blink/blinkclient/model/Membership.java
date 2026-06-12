@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 
 public class Membership {
 
+    public enum UserRole {
+        OWNER,
+        ADMIN,
+        MODERATOR,
+        MEMBER
+    }
+
     private String id;
     private User user;
     private UserRole role;

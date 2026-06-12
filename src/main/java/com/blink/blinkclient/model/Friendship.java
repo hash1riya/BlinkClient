@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 public class Friendship {
 
+    public enum FriendshipStatus {
+        PENDING,
+        ACCEPTED,
+        BLOCKED
+    }
+
     private String id;
     private User friend;
     private FriendshipStatus status;

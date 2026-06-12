@@ -13,7 +13,8 @@ public class BlinkApiService {
 
     private static final String BASE_URL = "http://localhost:8080/blink";
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    public final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
 
     // 1. Unauthenticated Request (Login/Register)
     public AuthResponse authenticate(String username, String password) throws Exception {
@@ -23,7 +24,7 @@ public class BlinkApiService {
         ));
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/auth/auth"))
+                .uri(URI.create(BASE_URL + "/auth/authenticate"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
@@ -43,7 +44,7 @@ public class BlinkApiService {
         }
     }
 
-    // 2. Authenticated Request (Getting Friends Data)
+    // 2. Authenticated Request (Get Friends Data)
     public String getFriendsList(String userId) throws Exception {
         if (!SessionManager.isAuthenticated()) {
             throw new IllegalStateException("No active session found.");
@@ -60,7 +61,7 @@ public class BlinkApiService {
         return response.body();
     }
 
-    // 3. Authenticated Request (Getting Rooms Where User Participates)
+    // 3. Authenticated Request (Get Rooms Where User Participates)
     public String getRoomsList(String userId) throws Exception {
         if (!SessionManager.isAuthenticated()) {
             throw new IllegalStateException("No active session found.");
@@ -68,6 +69,23 @@ public class BlinkApiService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/rooms/userRooms/" + userId))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + SessionManager.getToken())
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+    }
+
+    // 4. Authenticate Request (Get Room History)
+    public String getRoomHistory(String roomId) throws Exception {
+        if (!SessionManager.isAuthenticated()) {
+            throw new IllegalStateException("No active session found.");
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/rooms/" + roomId + "/history"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + SessionManager.getToken())
                 .GET()
