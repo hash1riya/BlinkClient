@@ -1,6 +1,6 @@
 # Blink Client 📱
 
-Blink Client is a modern, responsive desktop messaging interface built with **JavaFX** and modular Java architecture. Serving as the frontend engine for the Blink ecosystem, it provides a seamless chat workspace supporting public multi-user channels and private 1-to-1 direct messages. 
+Blink Client is a responsive desktop messaging interface built with **JavaFX** and modular Java architecture. Serving as the frontend engine for the Blink ecosystem, it is a seamless chat workspace supporting public multi-user channels and private 1-to-1 direct messages. 
 
 Engineered for extreme performance, the client implements non-blocking I/O and responsive data streaming patterns to deliver a smooth desktop user experience without interface stuttering.
 
@@ -39,12 +39,12 @@ Because the API yields raw, normalized database payloads (e.g., passing a `userI
 * **Apache Maven** configuration tools installed globally.
 
 ### Launching the Application
-1. Clone the client repository and enter the workspace directory:
+1. Clone the BlinkClient repository:
 ```bash
-   git clone [https://github.com/yourusername/blink-client.git](https://github.com/yourusername/blink-client.git)
-   cd blink-client
+   git clone https://github.com/hash1riya/BlinkClient.git
+   cd BlinkClient
 ```
-Compile resources and execute the modular application pipeline via the JavaFX Maven target:
+Compile resources and execute via the JavaFX Maven target:
 
 ```bash
    mvn clean javafx:run
